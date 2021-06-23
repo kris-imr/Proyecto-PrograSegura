@@ -30,42 +30,28 @@ def token(request):
         return redirect('feed')
 
 def feed(request):
-    usuario = Perfil.objects.username
-    print (usuario)
     return render(request, 'polls/feed.html')
 
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
-        
-        
-        print (usuario)
         if form.is_valid():
-            #print (confirmar_password)
             password = request.POST.get('password')
             confirmar_password = request.POST.get('confirmar_password')
             if password == confirmar_password:
                 formulario = form.save()
-                Telefono = request.POST.get('Telefono')
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
                 formulario.set_password(form.cleaned_data['password'])         
-                formulario.Telefono = Telefono
                 formulario.Token = Token
                 formulario.ChatID = ChatID
-                #formulario.CodigoTelegram = CodigoTelegram
-                
-                #formulario.set_password(form.cleaned_data['password'])
                 formulario.save()
-                #print (llave_publica)
                 username = form.cleaned_data['username']
                 messages.success(request, f'Usuario {username} creado')
                 return redirect('feed')
             else:
                 messages.error(request, f'Las contraseña no coinciden')
                 return redirect('registro')
-            
-            
     else:
         form = UserForm()
     context = { 'form' : form }
