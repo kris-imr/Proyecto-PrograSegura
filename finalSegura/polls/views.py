@@ -10,18 +10,18 @@ import requests
 
 # Create your views here.
 
-
-def codigoTelegram(request):
+def token(request):
     template='telegram.html'
     if request.method=='GET':
         return render(request,template)
     elif request.method=='POST':
-        usernameToken=request.POST.get('usernameToken','').strip()
+        username = request.user.username
         try:
-            datos_usuario=models.Usuario.objects.get(Username=usernameToken)
+            token = request.user.Token
+            chatID = request.user.chatID
             codigoAleatorio = random.randint(9999,99999)
             datos_usuario.codigoTelegram = codigoAleatorio
-            requests.post('https://api.telegram.org/bot' + datos_usuario.token_telegram + '/sendMessage', data={'chat_id': datos_usuario.chat_id, 'text': codigoAleatorio })
+            requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': codigoAleatorio })
             datos_usuario.save()
             return redirect('/')
         except:
@@ -29,14 +29,8 @@ def codigoTelegram(request):
             return render(request,template,{'errores':errores})
 
 
+
 def feed(request):
-    username = request.user.username
-    token = request.user.Token
-    chatID = request.user.chatID
-    codigoAleatorio = random.randint(9999,99999)
-    print (codigoAleatorio)
-    print (token)
-    requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': codigoAleatorio })
     return render(request, 'polls/feed.html')
 
 def registro(request):
