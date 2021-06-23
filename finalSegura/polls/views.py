@@ -31,11 +31,16 @@ def token(request):
 
 
 def feed(request):
+    usuario = Perfil.objects.username
+    print (usuario)
     return render(request, 'polls/feed.html')
 
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
+        
+        
+        print (usuario)
         if form.is_valid():
             #print (confirmar_password)
             password = request.POST.get('password')
