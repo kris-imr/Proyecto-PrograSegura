@@ -10,25 +10,24 @@ import requests
 
 # Create your views here.
 
+
 def token(request):
-    template='telegram.html'
+    template='polls/telegram.html'
     if request.method=='GET':
         return render(request,template)
     elif request.method=='POST':
-        username = request.user.username
-        try:
-            token = request.user.Token
-            chatID = request.user.chatID
-            codigoAleatorio = random.randint(9999,99999)
-            datos_usuario.codigoTelegram = codigoAleatorio
-            requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': codigoAleatorio })
-            datos_usuario.save()
-            return redirect('/')
-        except:
-            errores={'Ocurrio un error inesperado en APIBOtelegram'}
-            return render(request,template,{'errores':errores})
-
-
+        usuario = request.POST.get('username')
+        user = models.Perfil.objects.get(username=usuario)
+        token = user.Token
+        chatID = user.chatID
+        msj ="Este es tu codigo de acceso, no lo compartas con nadie: "
+        codigoAleatorio = random.randint(9999,99999)
+        codigoAleatorio2 = str(codigoAleatorio)
+        user.CodigoTelegram = codigoAleatorio2
+        print (codigoAleatorio2)
+        requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
+        user.save()
+        return redirect('feed')
 
 def feed(request):
     usuario = Perfil.objects.username
