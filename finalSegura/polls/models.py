@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class Perfil(AbstractUser):
+    username2 models.CharField(max_length=30)
     Telefono = models.CharField(max_length=30)
     Token = models.CharField(max_length=150)
     chatID = models.CharField(max_length=30)
