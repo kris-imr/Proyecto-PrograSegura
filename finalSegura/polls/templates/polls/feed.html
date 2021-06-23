@@ -1,0 +1,12 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<h2>Bienvenido, ahora podrás firmar todos tus archivos digiltalmente.</h2>
+{% else %}
+<h2>Bienvenido, si eres un nuevo usuario puedes registrarte gratis, si ya tienes una cuenta puedes entrar y disfrutar del sitio web </h2>
+{% endif %}
+
+
+
+{% endblock %}
