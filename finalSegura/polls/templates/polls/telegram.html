@@ -1,0 +1,23 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+
+
+  <form method="POST" id="formularioAcceso">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="username">Ingresa tu nombre de usuario para obtener tu código de Telegram:</label>
+        <input class="form-control" type="text" id="username"  name="username">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-6">
+        <button id="boton2" type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+    <br>
+  </form>  
+
+{% endblock %}
