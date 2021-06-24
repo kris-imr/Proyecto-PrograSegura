@@ -35,6 +35,22 @@ def feed(request):
 @login_requerido2
 def credenciales(request):
         return render(request, 'polls/upload.html')
+    
+@login_required
+def ingresar(request):
+    template = 'polls/token.html'
+    if request.method=='GET':
+        return render (request,template)
+    elif request.method =='POST':
+        se = request.session
+        print (se)
+        CodigoTelegram = request.POST.get('CodigoTelegram')
+        Codigo = request.user.CodigoTelegram
+        if CodigoTelegram == Codigo:
+            return render(request,'polls/acceso.html')
+        else:
+            request.session.flush()
+            return redirect('login')
 
 def registro(request):
     if request.method == 'POST':
@@ -46,7 +62,7 @@ def registro(request):
                 formulario = form.save()
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
-                formulario.set_password(form.cleaned_data['password'])         
+                    formulario.set_password(form.cleaned_data['password'])         
                 formulario.Token = Token
                 formulario.ChatID = ChatID
                 formulario.save()
