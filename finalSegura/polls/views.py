@@ -32,6 +32,10 @@ def token(request):
 def feed(request):
     return render(request, 'polls/feed.html')
 
+@login_requerido2
+def credenciales(request):
+        return render(request, 'polls/upload.html')
+
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
