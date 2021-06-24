@@ -9,4 +9,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='polls/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='polls/logout.html'), name='logout'),
     path('token/',views.token,name='token'),
+    path('Ingresar/', views.ingresar, name='ingresar'),
+    path('credenciales/', views.credenciales, name='credenciales'),
     ]
