@@ -62,7 +62,7 @@ def registro(request):
                 formulario = form.save()
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
-                    formulario.set_password(form.cleaned_data['password'])         
+                formulario.set_password(form.cleaned_data['password'])         
                 formulario.Token = Token
                 formulario.ChatID = ChatID
                 formulario.save()
