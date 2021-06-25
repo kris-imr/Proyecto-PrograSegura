@@ -1,0 +1,38 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<div class="container-fluid" style="width: 82rem;">
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr class="bg-primary">
+            
+            <td>Cuenta</td>
+            <td>URL</td>
+            <td>Contraseña</td>
+            <td>Detalles</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% if user.username %}
+        Hola, {{ user.username }} estas son tus cuentas registradas.
+        {% if credenciales %}
+        {% for credencial in credenciales %}
+        <tr>
+            
+            <td>{{ credencial.Nombre_cuenta }}</td>
+            <td>{{ credencial.url_cuenta }}</td>
+            <td>{{ credencial.password_cuenta }}</td>
+            <td>{{ credencial.detalles_cuenta }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+            <h1>No hay registros de credenciales del usuario {{ user.username }}</h1>
+        {% endif %}
+    {% else %}
+    <h1>No se encuentra logueado en el sistema</h1>
+    {% endif %}
+    </tbody>
+
+</table>
+</div>
+{% endblock %}
