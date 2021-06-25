@@ -68,7 +68,7 @@ def registrar_credencial(request):
         password_inicial = password_cuenta.encode('utf-8')
         password_cifrador = Cifradores.cifrar(password_inicial, llave_aes, iv_inicial)
         password_cifrador_texto = Cifradores.bin_str(password_cifrador)
-
+    
         cuenta.Usuario = username
         cuenta.Nombre_cuenta = Nombre_cuenta
         cuenta.password_cuenta = password_cifrador_texto
@@ -77,6 +77,12 @@ def registrar_credencial(request):
         cuenta.iv = iv_cifrador
         cuenta.save()
         return redirect ('/')
+    
+@login_required
+def credenciales(request):
+    template=('polls/upload.html')
+    if request.method=='GET':
+        return render(request, template)
     
 @login_required
 def ingresar(request):
