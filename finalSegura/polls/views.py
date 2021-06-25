@@ -28,14 +28,14 @@ def token(request):
         user = models.Perfil.objects.get(username=usuario)
         token = user.Token
         chatID = user.chatID
+        user.TiempoVida = datetime.datetime.now()
         msj ="Este es tu codigo de acceso, no lo compartas con nadie: "
         codigoAleatorio = random.randint(9999,99999)
         codigoAleatorio2 = str(codigoAleatorio)
         user.CodigoTelegram = codigoAleatorio2
-        print (codigoAleatorio2)
         requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
         user.save()
-        return redirect('feed')
+        return redirect('login')
 
 def feed(request):
     return render(request, 'polls/feed.html')
