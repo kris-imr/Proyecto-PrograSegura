@@ -47,9 +47,36 @@ def credenciales_list(request):
 def feed(request):
     return render(request, 'polls/feed.html')
 
-@login_requerido2
-def credenciales(request):
-        return render(request, 'polls/upload.html')
+def registrar_credencial(request):
+    template = 'polls/credenciales.html'
+    if request.method=='GET':
+        return render (request,template)
+    if request.method == 'POST':
+        username = request.user.username
+        Pass_user = request.user.Password_master
+        cuenta=models.Credenciales()
+        
+        Password_master = Pass_user
+        Nombre_cuenta = request.POST.get('Nombre_cuenta')
+        password_cuenta = request.POST.get('password_cuenta')
+        url_cuenta = request.POST.get('url_cuenta')
+        detalles_cuenta = request.POST.get('detalles_cuenta')
+        
+        iv_inicial = Cifradores.generar_iv()
+        iv_cifrador = Cifradores.bin_str(iv_inicial)
+        llave_aes = Cifradores.generar_llave_aes_from_password(Password_master)
+        password_inicial = password_cuenta.encode('utf-8')
+        password_cifrador = Cifradores.cifrar(password_inicial, llave_aes, iv_inicial)
+        password_cifrador_texto = Cifradores.bin_str(password_cifrador)
+
+        cuenta.Usuario = username
+        cuenta.Nombre_cuenta = Nombre_cuenta
+        cuenta.password_cuenta = password_cifrador_texto
+        cuenta.url_cuenta = url_cuenta
+        cuenta.detalles_cuenta = detalles_cuenta
+        cuenta.iv = iv_cifrador
+        cuenta.save()
+        return redirect ('/')
     
 @login_required
 def ingresar(request):
