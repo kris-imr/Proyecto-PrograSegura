@@ -1,14 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required 
+from django.utils.decorators import method_decorator
 from polls import models
 from django.shortcuts import render, render_to_response
 from django.contrib import messages
 from .forms import UserForm
 import random
 import requests
-
-# Create your views here.
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.template import RequestContext
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .decorators import  login_requerido2
+from datetime import timezone
+import datetime
+from polls import Cifradores 
 
 
 def token(request):
