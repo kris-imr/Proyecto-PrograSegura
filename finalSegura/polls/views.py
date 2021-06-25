@@ -37,6 +37,13 @@ def token(request):
         user.save()
         return redirect('login')
 
+def credenciales_list(request):
+    username = request.user.username
+    print (username)
+    credencial = models.Credenciales.objects.filter(Usuario=username)
+    contexto = {'credenciales':credencial}
+    return render(request,'polls/credenciales_list.html', contexto)
+
 def feed(request):
     return render(request, 'polls/feed.html')
 
