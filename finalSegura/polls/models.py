@@ -4,15 +4,17 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class Perfil(AbstractUser):
+    Telefono = models.CharField(max_length=30)
     Token = models.CharField(max_length=150)
     chatID = models.CharField(max_length=30)
     CodigoTelegram = models.CharField(max_length=30)
     TiempoVida = models.DateTimeField(null=True)
+    Password_master = models.CharField(max_length=20)
 
     
 class Credenciales(models.Model):
+    Usuario = models.CharField(max_length=30)
     Nombre_cuenta = models.CharField(max_length=30)
-    Usuario_cuenta = models.ForeignKey(Perfil,on_delete=models.CASCADE)
     password_cuenta = models.CharField(max_length=30)
     url_cuenta = models.URLField(max_length=30)
     detalles_cuenta = models.CharField(max_length=100)
