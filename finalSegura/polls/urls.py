@@ -11,4 +11,6 @@ urlpatterns = [
     path('token/',views.token,name='token'),
     path('Ingresar/', views.ingresar, name='ingresar'),
     path('credenciales/', views.credenciales, name='credenciales'),
+    path('registrar_credencial', views.registrar_credencial, name='registrar_credencial'),
+    path('listar', views.credenciales_list, name='credenciales_list'),
     ]
