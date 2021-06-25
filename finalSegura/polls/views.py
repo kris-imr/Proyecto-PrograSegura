@@ -90,12 +90,10 @@ def ingresar(request):
     if request.method=='GET':
         return render (request,template)
     elif request.method =='POST':
-        se = request.session
-        print (se)
         CodigoTelegram = request.POST.get('CodigoTelegram')
         Codigo = request.user.CodigoTelegram
         if CodigoTelegram == Codigo:
-            return render(request,'polls/acceso.html')
+            return redirect('/')
         else:
             request.session.flush()
             return redirect('login')
