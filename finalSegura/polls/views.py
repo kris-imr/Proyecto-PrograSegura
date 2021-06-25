@@ -101,23 +101,31 @@ def ingresar(request):
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
+       
         if form.is_valid():
             password = request.POST.get('password')
             confirmar_password = request.POST.get('confirmar_password')
+            master_password = request.POST.get('master_password')
             if password == confirmar_password:
                 formulario = form.save()
+                username = request.POST.get('username')
+                Telefono = request.POST.get('Telefono')
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
                 formulario.set_password(form.cleaned_data['password'])         
+                formulario.Telefono = Telefono
+                formulario.Password_master = Cifradores.generador_clave()
                 formulario.Token = Token
                 formulario.ChatID = ChatID
                 formulario.save()
                 username = form.cleaned_data['username']
                 messages.success(request, f'Usuario {username} creado')
-                return redirect('feed')
+                return redirect('login')
             else:
                 messages.error(request, f'Las contraseña no coinciden')
                 return redirect('registro')
+            
+            
     else:
         form = UserForm()
     context = { 'form' : form }
