@@ -1,0 +1,19 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<form class="form" method="POST" >
+	{% csrf_token %}
+
+    {{ form.as_p}}
+    <label>Cuenta: </label>
+    <input type="text" name="Nombre_cuenta">
+    <label>Contraseña: </label>
+    <input type="password" name="password_cuenta">
+    <label>URL: </label>
+    <input type="url" name="url_cuenta">
+    <label>Descripción: </label>
+    <input type="text" name="detalles_cuenta">
+
+	<br><button type="submit" id="submit">Guardar</button>
+</form>
+{% endblock %}
