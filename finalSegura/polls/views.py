@@ -158,10 +158,19 @@ def registro(request):
                 return redirect('login')
             else:
                 messages.error(request, f'Las contraseña no coinciden')
-                return redirect('registro')
-            
-            
+                return redirect('registro')    
     else:
         form = UserForm()
     context = { 'form' : form }
     return render(request, 'polls/registro.html', context)
+
+@login_requerido2
+def logout(request):
+    usuario = request.user.username
+    user = models.Perfil.objects.get(username=usuario)
+    esta = False
+    user.is_staff = esta
+    user.save()
+    messages.info(request, f'Has cerrado sesión.')
+    request.session.flush()
+    return redirect('/login')
