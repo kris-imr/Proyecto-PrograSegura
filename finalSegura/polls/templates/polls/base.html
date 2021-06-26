@@ -5,6 +5,7 @@
 	<title>Django</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'normal.css' %}">
@@ -14,14 +15,18 @@
 
 	<header class="main-head">
 		<nav class="main">
-			<h1 id="logo">Bienvenido {{ user.username }}</h1>
+			<h1 id="logo">Bienvenido </h1>
+            
 			<ul>
 				{% if request.user.is_authenticated %}
-                <li><a class="list-group-item list-group-item-action-active" href="{% url 'feed' %}">Inicio</a></li><br>
+                <li><a class="list-group-item list-group-item-action-active" href="{% url 'credenciales' %}">Generar contraseña</a></li><br>
+                <li><a class="list-group-item list-group-item-action-active" href="{% url 'credenciales_list' %}">Ver cuentas</a></li><br>
+                <li><a class="list-group-item list-group-item-action" href="{% url 'registrar_credencial' %}">Almacen</a></li>
 				<li><a class="list-group-item list-group-item-action" href="{% url 'logout' %}">Salir</a></li>
 				{% else %}
                 <li><a class="list-group-item list-group-item-action" href="{% url 'registro' %}">Registrarse</a></li>
                 <li><a class="list-group-item list-group-item-action" href="{% url 'login' %}">Entrar</a></li>
+                <li><a class="list-group-item list-group-item-action" href="{% url 'token' %}">token</a></li>
 				{% endif %}
 				
 				
@@ -59,8 +64,8 @@
 	</div>
 
 	<footer>
-		<div class="row">
-			<p>Desarrollo de Sistemas Web.<br>Desarrollado por: Leonardo y Erick.<br>Universidad Veracruzana.<br>2021.</p>
+		<div >
+			<p class=" text-black">Desarrollo de Sistemas Web.<br>Desarrollado por: Leonardo y Erick.<br>Universidad Veracruzana.<br>2021.</p>
 		</div>
 	</footer>
 
