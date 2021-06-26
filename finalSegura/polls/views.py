@@ -25,17 +25,22 @@ def token(request):
         return render(request,template)
     elif request.method=='POST':
         usuario = request.POST.get('username')
-        user = models.Perfil.objects.get(username=usuario)
-        token = user.Token
-        chatID = user.chatID
-        user.TiempoVida = datetime.datetime.now()
-        msj ="Este es tu codigo de acceso, no lo compartas con nadie: "
-        codigoAleatorio = random.randint(9999,99999)
-        codigoAleatorio2 = str(codigoAleatorio)
-        user.CodigoTelegram = codigoAleatorio2
-        requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
-        user.save()
-        return redirect('login')
+        try:
+            user = models.Perfil.objects.get(username=usuario)
+            token = user.Token
+            chatID = user.chatID
+            user.TiempoVida = datetime.datetime.now()
+            msj ="Este es tu codigo de acceso, no lo compartas con nadie: "
+            codigoAleatorio = random.randint(9999,99999)
+            codigoAleatorio2 = str(codigoAleatorio)
+            user.CodigoTelegram = codigoAleatorio2
+            requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
+            user.save()
+            messages.success(request, f'El codigo ha sido enviado a tu cuenta de telegram.')
+            return redirect('login')
+        except:
+            messages.error(request, f'El usuario no existe.')
+            return redirect('login')
 
 def credenciales_list(request):
     username = request.user.username
