@@ -1,0 +1,38 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<div class="container-fluid" style="width: 82rem;">
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr class="bg-primary">
+            
+            <td>Usuario</td>
+            <td>URL</td>
+            <td>Contraseña</td>
+            <td>Detalles</td>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {%for cuenta in cuentas%}
+        <tr>
+            <td>{{ cuenta.Nombre_cuenta }}</td>
+            <td>{{ cuenta.url_cuenta }}</td>
+            <td>{{ cuenta.password_cuenta }}</td>
+            <td>{{ cuenta.detalles_cuenta }}</td>
+            
+
+        </tr>
+        {%endfor%}
+
+    </tbody>
+
+</table>
+  <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary btn-sm">Mostrar contraseñas.</button>
+  </form>
+    
+
+</div>
+{% endblock %}

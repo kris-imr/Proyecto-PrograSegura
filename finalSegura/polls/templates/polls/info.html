@@ -1,0 +1,19 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<h2>¿Cómo puedo crear mi bot de telegram?</h2>
+<p>Para crear tu bot de telegram solo basta seguir estos sencillos pasos.</p>
+<ol>
+  <li>Ingresa a Telegram desde tu celular o computadora.</li>
+  <li>El barra de búsqueda ingresa lo siguiente: <strong> BotFather</strong></li>
+  <li>Ingresa al chat y envia el siguiente mensaje: <strong>/start </strong></li>
+  <li>Crea tu propio bot siguiendo las instrucciones de BotFather.</li>
+  <li>Copia el token que te devuelve BotFather al finalizar la creación de tu Bot.</li>
+  <li>En la barra de búsqueda ingresa el nombre de Bot creado anteriormente.</li>
+  <li>Presiona el boton <strong>/start </strong> en el chat de tu Bot.</li>
+  <li>Ingresa al siguiente link https://api.telegram.org/bot<strong>[Aquí pega el token que BotFather te dio]</strong> /getUpdates</li>
+  <li>Copia el valor que se encuentra en <strong> ChatID. </strong></li>
+  <li>Vuelve al registro y llena los datos solicitados.</li>
+</ol>
+
+{% endblock %}
