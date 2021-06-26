@@ -109,6 +109,10 @@ def credenciales(request):
     if request.method=='GET':
         return render(request, template)
     
+def info(request):
+    return render(request, 'polls/info.html')    
+
+    
 @login_required
 def ingresar(request):
     template = 'polls/token.html'
