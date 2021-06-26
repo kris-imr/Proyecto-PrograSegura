@@ -122,8 +122,14 @@ def ingresar(request):
         CodigoTelegram = request.POST.get('CodigoTelegram')
         Codigo = request.user.CodigoTelegram
         if CodigoTelegram == Codigo:
+            usuario = request.user.username
+            user = models.Perfil.objects.get(username=usuario)
+            esta = True
+            user.is_staff = esta
+            user.save()
             return redirect('/')
         else:
+            messages.error(request, f'El codigo que ingresaste no es correcto.')
             request.session.flush()
             return redirect('login')
 
