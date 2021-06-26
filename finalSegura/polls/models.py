@@ -19,3 +19,4 @@ class Credenciales(models.Model):
     url_cuenta = models.URLField(max_length=30)
     detalles_cuenta = models.CharField(max_length=100)
     iv = models.CharField(max_length=512)
+    usuario_Asociado_id=models.ForeignKey(Perfil,on_delete=models.CASCADE)
