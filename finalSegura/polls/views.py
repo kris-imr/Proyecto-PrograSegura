@@ -42,12 +42,29 @@ def token(request):
             messages.error(request, f'El usuario no existe.')
             return redirect('login')
 
+@login_requerido2
 def credenciales_list(request):
-    username = request.user.username
-    print (username)
-    credencial = models.Credenciales.objects.filter(Usuario=username)
-    contexto = {'credenciales':credencial}
-    return render(request,'polls/credenciales_list.html', contexto)
+    template = 'polls/credenciales_list2.html'
+    idU = request.user.id
+    Password_master = request.user.Password_master
+    if request.method=='GET':
+        return render (request, template)
+    elif request.method == 'POST':
+        cuentas = models.Credenciales.objects.filter(usuario_Asociado_id_id=idU)
+        n=0
+        for cuenta in cuentas:
+            Password_master = request.user.Password_master
+            password_cifrador_texto = cuenta.password_cuenta
+            password_cifrador = Cifradores.str_bin(password_cifrador_texto)
+            iv_inicial=cuenta.iv
+            iv_cifrador = Cifradores.str_bin(iv_inicial)
+            llave = Cifradores.generar_llave_aes_from_password(Password_master)
+            password_descifrado = Cifradores.descifrar(password_cifrador, llave, iv_cifrador)
+            password_texto = password_descifrado.decode('utf-8')
+            cuentas[n].password_cuenta = password_texto
+            n+=1
+        contexto = {'cuentas':cuentas}
+        return render(request,template, contexto)
 
 def feed(request):
     return render(request, 'polls/feed.html')
