@@ -66,9 +66,11 @@ def credenciales_list(request):
         contexto = {'cuentas':cuentas}
         return render(request,template, contexto)
 
+@login_requerido2
 def feed(request):
     return render(request, 'polls/feed.html')
 
+@login_requerido2
 def registrar_credencial(request):
     template = 'polls/credenciales.html'
     if request.method=='GET':
@@ -76,8 +78,7 @@ def registrar_credencial(request):
     if request.method == 'POST':
         username = request.user.username
         Pass_user = request.user.Password_master
-        cuenta=models.Credenciales()
-        
+        cuenta=models.Credenciales()       
         Password_master = Pass_user
         Nombre_cuenta = request.POST.get('Nombre_cuenta')
         password_cuenta = request.POST.get('password_cuenta')
@@ -90,7 +91,9 @@ def registrar_credencial(request):
         password_inicial = password_cuenta.encode('utf-8')
         password_cifrador = Cifradores.cifrar(password_inicial, llave_aes, iv_inicial)
         password_cifrador_texto = Cifradores.bin_str(password_cifrador)
-    
+        idU = request.user.id
+        cuenta.usuario_Asociado_id_id = idU
+        
         cuenta.Usuario = username
         cuenta.Nombre_cuenta = Nombre_cuenta
         cuenta.password_cuenta = password_cifrador_texto
