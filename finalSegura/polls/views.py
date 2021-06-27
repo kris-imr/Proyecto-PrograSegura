@@ -17,7 +17,7 @@ from .decorators import  login_requerido2
 from datetime import timezone
 import datetime
 from polls import Cifradores 
-
+print()
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
