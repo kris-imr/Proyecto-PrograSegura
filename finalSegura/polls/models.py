@@ -20,3 +20,8 @@ class Credenciales(models.Model):
     detalles_cuenta = models.CharField(max_length=100)
     iv = models.CharField(max_length=512)
     usuario_Asociado_id=models.ForeignKey(Perfil,on_delete=models.CASCADE)
+
+class Intentos_por_IP(models.Model):
+    ip = models.GenericIPAddressField(primary_key=True)
+    contador = models.IntegerField(default=0)
+    ultima_petición = models.DateTimeField()
