@@ -64,6 +64,7 @@ def puede_intentar(ip):
             return False
 
 def token(request):
+    print("hola")
     template='polls/telegram.html'
     if request.method=='GET':
         return render(request,template)
