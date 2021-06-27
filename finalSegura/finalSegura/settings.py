@@ -123,5 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-AUTH_USER_MODEL = 'polls.Perfil'
-LOGIN_REDIRECT_URL = 'feed'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOGIN_REDIRECT_URL = '/'
+SESSION_COOKIE_AGE = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True # se destruye la sesión si se cierra el navegador
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
