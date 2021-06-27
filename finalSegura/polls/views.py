@@ -18,6 +18,50 @@ from datetime import timezone
 import datetime
 from polls import Cifradores 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+def puede_intentar(ip):
+    """
+    Determina si una ip dada puede volver a intentar enviar el formulario
+    La política es 3 intentos máximos por minuto
+    La función tiene efectos colaterales en la BD
+    La función regresa verdadero o falso
+    """
+    # primer caso, la ip es nueva
+    registro_guardado = models.Intentos_por_IP.objects.filter(pk=ip)
+    if not registro_guardado:
+        registro = models.Intentos_por_IP(ip=ip, contador=1, ultima_petición=datetime.datetime.now())
+        registro.save()
+        return True
+    registro_guardado = registro_guardado[0]
+    #diferencia_tiempo = diferencia_segundos_ahora(registro_guardado.ultima_petición)
+    #minuto = diferencia_tiempo + datetime.timedelta(seconds=60)
+    ahora = datetime.datetime.now(timezone.utc)
+    #inuto = ahora + datetime.timedelta(seconds=60)
+    
+    ultima = registro_guardado.ultima_petición + datetime.timedelta(hours=5, minutes=1)
+    aho = ahora.timestamp()
+    ulti = ultima.timestamp()
+    if aho > ulti: # ya no importa el número de intentos
+        registro_guardado.ultima_petición = datetime.datetime.now()
+        registro_guardado.contador = 1
+        registro_guardado.save()
+        return True
+    else:
+        if registro_guardado.contador < 3:
+            registro_guardado.ultima_petición = datetime.datetime.now()
+            registro_guardado.contador += 1
+            registro_guardado.save()
+            return True
+        else:
+            registro_guardado.ultima_petición = datetime.datetime.now()
+            return False
 
 def token(request):
     template='polls/telegram.html'
