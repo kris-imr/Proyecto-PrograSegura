@@ -88,6 +88,7 @@ def token(request):
             return redirect('login')
         except:
             messages.error(request, f'El usuario no existe.')
+            logging.error(f'El usuario no existe')
             return redirect('login')
 
 @login_requerido2
@@ -187,10 +188,12 @@ def ingresar(request):
                 return redirect('/')
             else:
                 messages.error(request, f'El codigo que ingresaste no es correcto o ha expirado genere otro')
+                logging.error(f'El codigo que ingresaste no es correcto o ha expirado genere otro')
                 request.session.flush()
                 return redirect('login')
         else:
             messages.error(request, f'El codigo que ingresaste no es correcto o ha expirado genere otro')
+            logging.error(f'El codigo que ingresaste no es correcto o ha expirado genere otro')
             request.session.flush()
             return redirect('login')
 
@@ -220,6 +223,7 @@ def registro(request):
                 return redirect('login')
             else:
                 messages.error(request, f'Las contraseña no coinciden')
+                logging.error(f'Las contraseña no coinciden')
                 return redirect('registro')    
     else:
         form = UserForm()
