@@ -168,17 +168,27 @@ def ingresar(request):
         if not puede_intentar(ip):
             request.session.flush()
             return redirect('fail.html')
-        if CodigoTelegram == Codigo:
-            usuario = request.user.username
-            user = models.Perfil.objects.get(username=usuario)
-            esta = True
-            user.is_staff = esta
-            user.save()
-            return redirect('/')
+        tv = request.user.TiempoVida + datetime.timedelta(hours=5, minutes=2)
+        ahora = datetime.datetime.now(timezone.utc)
+        aho = ahora.timestamp()
+        ulti = tv.timestamp()
+        if aho < ulti:
+            if CodigoTelegram == Codigo:
+                usuario = request.user.username
+                user = models.Perfil.objects.get(username=usuario)
+                esta = True
+                user.is_staff = esta
+                user.save()
+                return redirect('/')
+            else:
+                messages.error(request, f'El codigo que ingresaste no es correcto o ha expirado genere otro')
+                request.session.flush()
+                return redirect('login')
         else:
-            messages.error(request, f'El codigo que ingresaste no es correcto.')
+            messages.error(request, f'El codigo que ingresaste no es correcto o ha expirado genere otro')
             request.session.flush()
             return redirect('login')
+
 
 def registro(request):
     if request.method == 'POST':
