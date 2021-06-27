@@ -1,0 +1,13 @@
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'js/prueba.js' %}">
+<script src="{% static 'js/prueba.js' %}"></script>
+<iframe src="https://www.google.com"></iframe>
+<META HTTP-EQUIV="REFRESH" CONTENT="60;URL=http://127.0.0.1:8000/login">
+<body>
+Su sesión ha sido bloqueada durante un minuto, por favor espere.
+</body>
+
+
+{% endblock %}
