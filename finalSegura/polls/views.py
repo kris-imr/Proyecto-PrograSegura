@@ -85,6 +85,7 @@ def token(request):
             requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
             user.save()
             messages.success(request, f'El codigo ha sido enviado a tu cuenta de telegram.')
+            logging.info(f'El código ha sido enviado a tu cuenta de telegram')
             return redirect('login')
         except:
             messages.error(request, f'El usuario no existe.')
@@ -220,6 +221,7 @@ def registro(request):
                 formulario.save()
                 username = form.cleaned_data['username']
                 messages.success(request, f'Usuario {username} creado')
+                logging.info(f'Usuario {username} creado')
                 return redirect('login')
             else:
                 messages.error(request, f'Las contraseña no coinciden')
@@ -238,5 +240,6 @@ def logout(request):
     user.is_staff = esta
     user.save()
     messages.info(request, f'Has cerrado sesión.')
+    logging.info(f'se ha cerrado sesión')
     request.session.flush()
     return redirect('/login')
