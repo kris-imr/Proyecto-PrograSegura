@@ -40,10 +40,8 @@ def puede_intentar(ip):
         registro.save()
         return True
     registro_guardado = registro_guardado[0]
-    #diferencia_tiempo = diferencia_segundos_ahora(registro_guardado.ultima_petición)
-    #minuto = diferencia_tiempo + datetime.timedelta(seconds=60)
     ahora = datetime.datetime.now(timezone.utc)
-    #inuto = ahora + datetime.timedelta(seconds=60)
+
     
     ultima = registro_guardado.ultima_petición + datetime.timedelta(hours=5, minutes=1)
     aho = ahora.timestamp()
