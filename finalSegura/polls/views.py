@@ -21,7 +21,7 @@ import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', 
     datefmt='%d-%b-%y %H:%M:%S', 
-    level=logging.ERROR, filename='bitacora.log', filemode='a+')
+    level=logging.INFO, filename='bitacora.log', filemode='a+')
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
