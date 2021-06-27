@@ -16,7 +16,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .decorators import  login_requerido2
 from datetime import timezone
 import datetime
-from polls import Cifradores 
+from polls import Cifradores
+import logging 
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
