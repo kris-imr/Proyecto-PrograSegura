@@ -162,11 +162,10 @@ def fail(request):
     
 @login_required
 def ingresar(request):
-    template = 'polls/token.html'
     if request.method=='GET':
-        return render (request,template)
-    elif request.method =='POST':
-       ip = get_client_ip(request)
+        return render(request,'polls/token.html')
+    if request.method =='POST':
+        ip = get_client_ip(request)
         CodigoTelegram = request.POST.get('CodigoTelegram')
         Codigo = request.user.CodigoTelegram
         if not puede_intentar(ip):
