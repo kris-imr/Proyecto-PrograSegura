@@ -148,11 +148,16 @@ def registrar_credencial(request):
 @login_required
 def credenciales(request):
     template=('polls/upload.html')
-    if request.method=='GET':
-        return render(request, template)
+    return render(request, template)
     
+def acceso(request):
+    return render(request, 'polls/acceso.html')
+
 def info(request):
-    return render(request, 'polls/info.html')    
+    return render(request, 'polls/info.html')
+
+def fail(request):
+    return render(request, 'polls/fail.html')  
 
     
 @login_required
