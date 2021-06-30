@@ -67,29 +67,24 @@ def puede_intentar(ip):
             return False
 
 def token(request):
-    print("hola")
     template='polls/telegram.html'
     if request.method=='GET':
-        return render(request,template)
+        return render(request, template)
     elif request.method=='POST':
         usuario = request.POST.get('username')
         try:
             user = models.Perfil.objects.get(username=usuario)
-            token = user.Token
-            chatID = user.chatID
             user.TiempoVida = datetime.datetime.now()
-            msj ="Este es tu codigo de acceso, no lo compartas con nadie: "
-            codigoAleatorio = random.randint(9999,99999)
-            codigoAleatorio2 = str(codigoAleatorio)
-            user.CodigoTelegram = codigoAleatorio2
-            requests.post('https://api.telegram.org/bot' + token + '/sendMessage', data={'chat_id': chatID, 'text': msj+codigoAleatorio2 })
+            codigoaleatorio0 = random.randint(9999,99999)
+            user.CodigoTelegram = codigoaleatorio0
+            requests.post('https://api.telegram.org/bot' + user.Token + '/sendMessage', data={'chat_id': user.chatID, 'text': codigoaleatorio0 })
             user.save()
             messages.success(request, f'El codigo ha sido enviado a tu cuenta de telegram.')
             logging.info(f'El código ha sido enviado a tu cuenta de telegram')
             return redirect('login')
-        except:
+        except models.Perfil.DoesNotExist: 
             messages.error(request, f'El usuario no existe.')
-            logging.error(f'El usuario no existe')
+            logging.error(f'el usuario no existe')
             return redirect('login')
 
 @login_requerido2
