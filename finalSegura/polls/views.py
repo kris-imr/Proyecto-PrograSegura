@@ -38,7 +38,7 @@ def puede_intentar(ip):
     La función tiene efectos colaterales en la BD
     La función regresa verdadero o falso
     """
-    # primer caso, la ip es nueva
+    
     registro_guardado = models.Intentos_por_IP.objects.filter(pk=ip)
     if not registro_guardado:
         registro = models.Intentos_por_IP(ip=ip, contador=1, ultima_petición=datetime.datetime.now())
@@ -51,7 +51,7 @@ def puede_intentar(ip):
     ultima = registro_guardado.ultima_petición + datetime.timedelta(hours=5, minutes=1)
     aho = ahora.timestamp()
     ulti = ultima.timestamp()
-    if aho > ulti: # ya no importa el número de intentos
+    if aho > ulti: 
         registro_guardado.ultima_petición = datetime.datetime.now()
         registro_guardado.contador = 1
         registro_guardado.save()
