@@ -24,6 +24,9 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO, filename='bitacora.log', filemode='a+')
 
 def get_client_ip(request):
+    """
+    Función que recupera la ip del cliente
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
