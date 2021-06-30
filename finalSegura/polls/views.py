@@ -90,20 +90,17 @@ def token(request):
 @login_requerido2
 def credenciales_list(request):
     template = 'polls/credenciales_list2.html'
-    idU = request.user.id
-    Password_master = request.user.Password_master
     if request.method=='GET':
-        return render (request, template)
+        return render (request,template)
     elif request.method == 'POST':
-        cuentas = models.Credenciales.objects.filter(usuario_Asociado_id_id=idU)
+        cuentas = models.Credenciales.objects.filter(usuario_Asociado_id_id=request.user.id)
         n=0
         for cuenta in cuentas:
-            Password_master = request.user.Password_master
             password_cifrador_texto = cuenta.password_cuenta
             password_cifrador = Cifradores.str_bin(password_cifrador_texto)
             iv_inicial=cuenta.iv
             iv_cifrador = Cifradores.str_bin(iv_inicial)
-            llave = Cifradores.generar_llave_aes_from_password(Password_master)
+            llave = Cifradores.generar_llave_aes_from_password(request.user.Password_master)
             password_descifrado = Cifradores.descifrar(password_cifrador, llave, iv_cifrador)
             password_texto = password_descifrado.decode('utf-8')
             cuentas[n].password_cuenta = password_texto
