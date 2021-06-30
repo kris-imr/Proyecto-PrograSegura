@@ -6,8 +6,6 @@ from polls import models
 from django.shortcuts import render, render_to_response
 from django.contrib import messages
 from .forms import UserForm
-import random
-import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -15,9 +13,11 @@ from django.template import RequestContext
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .decorators import  login_requerido2
 from datetime import timezone
-import datetime
 from polls import Cifradores
-import logging 
+import logging
+import random
+import requests
+import datetime
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', 
     datefmt='%d-%b-%y %H:%M:%S', 
