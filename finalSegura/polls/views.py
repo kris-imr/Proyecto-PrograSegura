@@ -198,14 +198,12 @@ def ingresar(request):
 def registro(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
-       
         if form.is_valid():
             password = request.POST.get('password')
             confirmar_password = request.POST.get('confirmar_password')
             master_password = request.POST.get('master_password')
             if password == confirmar_password:
                 formulario = form.save()
-                username = request.POST.get('username')
                 Telefono = request.POST.get('Telefono')
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
@@ -234,8 +232,9 @@ def logout(request):
     user = models.Perfil.objects.get(username=usuario)
     esta = False
     user.is_staff = esta
+    leoso = ""
+    user.CodigoTelegram = leoso
     user.save()
     messages.info(request, f'Has cerrado sesión.')
-    logging.info(f'se ha cerrado sesión')
     request.session.flush()
     return redirect('/login')
