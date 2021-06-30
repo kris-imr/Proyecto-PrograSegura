@@ -70,6 +70,9 @@ def puede_intentar(ip):
             return False
 
 def token(request):
+    """
+    Función que envia el código a telegram
+    """
     template='polls/telegram.html'
     if request.method=='GET':
         return render(request, template)
@@ -92,6 +95,9 @@ def token(request):
 
 @login_requerido2
 def credenciales_list(request):
+    """
+    Función que permita listar las credenciales que un usuario ha almacenado
+    """
     template = 'polls/credenciales_list2.html'
     if request.method=='GET':
         return render (request,template)
@@ -117,6 +123,9 @@ def feed(request):
 
 @login_requerido2
 def registrar_credencial(request):
+    """
+    Función que le permite a un usuario registrar una credencial
+    """
     template = 'polls/credenciales.html'
     if request.method=='GET':
         return render (request,template)
@@ -165,6 +174,9 @@ def fail(request):
     
 @login_required
 def ingresar(request):
+    """
+    Función que te solicita el codigo que se envia a telegram para comparar con la BD
+    """
     if request.method=='GET':
         return render(request,'polls/token.html')
     if request.method =='POST':
@@ -199,6 +211,9 @@ def ingresar(request):
 
 
 def registro(request):
+    """
+    Función que permite registrarse a un usuario
+    """
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -231,6 +246,9 @@ def registro(request):
 
 @login_requerido2
 def logout(request):
+    """
+    Función para cerrar la sesión de un usuario
+    """
     usuario = request.user.username
     user = models.Perfil.objects.get(username=usuario)
     esta = False
