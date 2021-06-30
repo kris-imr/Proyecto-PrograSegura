@@ -3,13 +3,14 @@
 {% block content %}
 <div class="container-fluid" style="width: 82rem;">
 <table class="table table-bordered table-hover">
+    <caption>Lista de credenciales del usuario {{ user.username }}</caption>
     <thead class="thead-dark">
         <tr class="bg-primary">
             
-            <td>Usuario</td>
-            <td>URL</td>
-            <td>Contraseña</td>
-            <td>Detalles</td>
+            <th scope="col">Usuario</th>
+            <th scope="col">URL</th>
+            <th scope="col">Contraseña</th>
+            <th scope="col">Detalles</th>
         </tr>
     </thead>
     <tbody>
