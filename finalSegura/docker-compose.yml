@@ -3,11 +3,11 @@ version: '3.1'
 services:
         progra_segura:
                 environment:
-                        llave: fafaffafas
-                        bdName: miBD
-                        bdUser: root
-                        bdPassword: patito
-                        bdHost: bd
+                        llave: ${llave}
+                        bdName: ${bdName}
+                        bdUser: ${bdUser}
+                        bdPassword: ${bdPassword}
+                        bdHost: ${bdHost}
                         bdPort: 3306
                 build: ./finalSegura6
                 restart: always
@@ -19,7 +19,16 @@ services:
                 image: mariadb
                 restart: always
                 environment:
-                        MYSQL_ROOT_PASSWORD: patito
+                        MYSQL_ROOT_PASSWORD: ${bdPassword}
                         MYSQL_DATABASE: miBD
                 volumes:
                         - ./data:/var/lib/mysql
+        nginx:
+                image: nginx
+                restart: always
+                volumes:
+                        - ./nginx:/etc/nginx/conf.d
+                depends_on:
+                        - progra_segura
+                ports:
+                        - 9000:80
