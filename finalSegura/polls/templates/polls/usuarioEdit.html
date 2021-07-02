@@ -1,0 +1,45 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<form class="form" method="POST" >
+
+    <div  class="form-group">
+	{% csrf_token %}
+
+    {{ form.as_p}}
+    <table class="table table-bordered table-hover">
+    <caption>Modificar Credenciales del usuario {{ user.username }}</caption>
+    <thead class="thead-dark">
+        <tr class="bg-primary">
+            
+            <th scope="col">id de la cuenta a modificar:</th>
+            <th scope="col">Cuenta</th>
+            <th scope="col">URL</th>
+            <th scope="col">Contraseña</th>
+            <th scope="col">Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+
+        <tr>
+            <td><input type="text" id="id_cuenta"  name="id_cuenta"></td>
+            <td><input type="text" name="Nombre_cuenta"></td>
+            <td><input type="url" name="url_cuenta"></td>
+            <td> <input type="password" name="password_cuenta"></td>
+            <td><input type="text" name="detalles_cuenta"></td>
+           
+            
+
+        </tr>
+        
+
+    </tbody>
+
+</table>
+<br><button type="submit" id="submit">Guardar</button>
+
+
+    </div>
+</form>
+{% endblock %}
