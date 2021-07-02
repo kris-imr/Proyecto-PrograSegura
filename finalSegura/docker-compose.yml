@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+        progra_segura:
+                environment:
+                        llave: fafaffafas
+                        bdName: miBD
+                        bdUser: root
+                        bdPassword: patito
+                        bdHost: bd
+                        bdPort: 3306
+                build: ./finalSegura6
+                restart: always
+                volumes:
+                        - ./finalSegura6:/code
+                ports:
+                        -  8080:8080
+        bd:
+                image: mariadb
+                restart: always
+                environment:
+                        MYSQL_ROOT_PASSWORD: patito
+                        MYSQL_DATABASE: miBD
+                volumes:
+                        - ./data:/var/lib/mysql
