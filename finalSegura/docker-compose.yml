@@ -32,8 +32,11 @@ services:
                 image: nginx
                 restart: always
                 volumes:
-                        - ./nginx:/etc/nginx/conf.d
+                        - ./nginx/conf:/etc/nginx/conf.d
+                        - ./certificados:/tmp
+                        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
                 depends_on:
                         - progra_segura
                 ports:
                         - 9000:80
+                        - 9100:443
