@@ -17,4 +17,4 @@ urlpatterns = [
     path('registro/info.html', views.info, name='info'),
     path('Ingresar/fail.html', views.fail, name='fail.html'),
     path('usuarioEdit.html', views.edit, name='usuarioEdit.html')
-    ]]
+    ]
