@@ -19,14 +19,14 @@ import random
 import requests
 import datetime
 
+# Create your views here.
+
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', 
     datefmt='%d-%b-%y %H:%M:%S', 
     level=logging.INFO, filename='bitacora.log', filemode='a+')
 
+
 def get_client_ip(request):
-    """
-    Función que recupera la ip del cliente
-    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -41,7 +41,6 @@ def puede_intentar(ip):
     La función tiene efectos colaterales en la BD
     La función regresa verdadero o falso
     """
-    
     registro_guardado = models.Intentos_por_IP.objects.filter(pk=ip)
     if not registro_guardado:
         registro = models.Intentos_por_IP(ip=ip, contador=1, ultima_petición=datetime.datetime.now())
@@ -69,10 +68,8 @@ def puede_intentar(ip):
             registro_guardado.ultima_petición = datetime.datetime.now()
             return False
 
+
 def token(request):
-    """
-    Función que envia el código a telegram
-    """
     template='polls/telegram.html'
     if request.method=='GET':
         return render(request, template)
@@ -93,11 +90,9 @@ def token(request):
             logging.error(f'el usuario no existe')
             return redirect('login')
 
+
 @login_requerido2
 def credenciales_list(request):
-    """
-    Función que permita listar las credenciales que un usuario ha almacenado
-    """
     template = 'polls/credenciales_list2.html'
     if request.method=='GET':
         return render (request,template)
@@ -117,18 +112,17 @@ def credenciales_list(request):
         contexto = {'cuentas':cuentas}
         return render(request,template, contexto)
 
+
 @login_requerido2
 def feed(request):
     return render(request, 'polls/feed.html')
 
+
 @login_requerido2
 def registrar_credencial(request):
-    """
-    Función que le permite a un usuario registrar una credencial
-    """
     template = 'polls/credenciales.html'
-    if request.method=='GET':
-        return render (request,template)
+    if request.method == 'GET':
+        return render(request,template)
     if request.method == 'POST':
         username = request.user.username
         Pass_user = request.user.Password_master
@@ -156,12 +150,13 @@ def registrar_credencial(request):
         cuenta.iv = iv_cifrador
         cuenta.save()
         return redirect ('/')
-    
-@login_required
+
+@login_requerido2
 def credenciales(request):
     template=('polls/upload.html')
     return render(request, template)
     
+
 def acceso(request):
     return render(request, 'polls/acceso.html')
 
@@ -169,14 +164,11 @@ def info(request):
     return render(request, 'polls/info.html')
 
 def fail(request):
-    return render(request, 'polls/fail.html')  
+    return render(request, 'polls/fail.html')
 
-    
+
 @login_required
 def ingresar(request):
-    """
-    Función que te solicita el codigo que se envia a telegram para comparar con la BD
-    """
     if request.method=='GET':
         return render(request,'polls/token.html')
     if request.method =='POST':
@@ -210,10 +202,8 @@ def ingresar(request):
             return redirect('login')
 
 
+
 def registro(request):
-    """
-    Función que permite registrarse a un usuario
-    """
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -222,6 +212,7 @@ def registro(request):
             master_password = request.POST.get('master_password')
             if password == confirmar_password:
                 formulario = form.save()
+                #username = request.POST.get('username')
                 Telefono = request.POST.get('Telefono')
                 Token = request.POST.get('Token')
                 ChatID = request.POST.get('ChatID')
@@ -246,9 +237,6 @@ def registro(request):
 
 @login_requerido2
 def logout(request):
-    """
-    Función para cerrar la sesión de un usuario
-    """
     usuario = request.user.username
     user = models.Perfil.objects.get(username=usuario)
     esta = False
@@ -259,3 +247,35 @@ def logout(request):
     messages.info(request, f'Has cerrado sesión.')
     request.session.flush()
     return redirect('/login')
+
+def fail(request):
+    return render(request, 'polls/fail.html')
+
+@login_requerido2
+def edit(request):
+    if request.method == 'POST':
+        Pass_user = request.user.Password_master
+        Password_master = Pass_user
+        id_cuenta = request.POST.get('id_cuenta', '').strip()
+        Nombre_cuenta = request.POST.get('Nombre_cuenta', '').strip()
+        password_cuenta = request.POST.get('password_cuenta', '').strip()
+        url_cuenta = request.POST.get('url_cuenta', '').strip()
+        detalles_cuenta = request.POST.get('detalles_cuenta', '').strip()
+
+        iv_inicial = Cifradores.generar_iv()
+        iv_cifrador = Cifradores.bin_str(iv_inicial)
+        llave_aes = Cifradores.generar_llave_aes_from_password(Password_master)
+        password_inicial = password_cuenta.encode('utf-8')
+        password_cifrador = Cifradores.cifrar(password_inicial, llave_aes, iv_inicial)
+        password_cifrador_texto = Cifradores.bin_str(password_cifrador)
+        
+        
+        lista = [Nombre_cuenta, password_cifrador_texto, url_cuenta, detalles_cuenta]
+        
+        models.Credenciales()
+        models.Credenciales.objects.filter(pk=id_cuenta).update(Nombre_cuenta=lista[0], password_cuenta=lista[1], url_cuenta=lista[2], detalles_cuenta=lista[3], iv=iv_cifrador)
+        logging.info("el usuario esito una cuenta ")
+        return redirect ('/')
+    else:
+         return render(request, "polls/usuarioEdit.html")
+
