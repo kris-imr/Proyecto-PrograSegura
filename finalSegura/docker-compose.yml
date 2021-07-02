@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.7'
 
 services:
         progra_segura:
@@ -15,6 +15,11 @@ services:
                         - ./finalSegura6:/code
                 ports:
                         -  8080:8080
+                deploy:
+                        resources:
+                                limits:
+                                        cpus: "1"
+                                        memory: "1024M"
         bd:
                 image: mariadb
                 restart: always
