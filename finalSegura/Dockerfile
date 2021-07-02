@@ -1,6 +1,5 @@
 FROM python:3.9
 
-
 RUN pip install Django~=2.2.4
 RUN pip install mysql-connector-python
 RUN pip install PyMySQL
@@ -25,5 +24,11 @@ WORKDIR /code
 
 RUN chmod +x /start/run.sh
 
+RUN useradd lenovo -s /bin/bash
+
+RUN chown -R lenovo /code
+RUN chown -R lenovo /start
+
+USER lenovo
 
 CMD /start/run.sh
